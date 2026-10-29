@@ -37,5 +37,8 @@ public final class LunaireFabric implements ModInitializer {
                 })
                 .build();
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Lunaire.id("lunaire"), tab);
+
+        // Gravité réduite dans la dimension lunaire (lunaire:moon).
+        LunarGravity.init();
     }
 }
