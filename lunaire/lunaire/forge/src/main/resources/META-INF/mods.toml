@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[66,)"
+license="MIT"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="Lunaire"
+description='''
+Échoué sur la Lune : survivez, construisez une serre, une fusée, et rentrez à la maison.
+'''
+
+[[dependencies.lunaire]]
+modId="forge"
+mandatory=true
+versionRange="[66,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.lunaire]]
+modId="minecraft"
+mandatory=true
+versionRange="[26.3,26.4)"
+ordering="NONE"
+side="BOTH"
