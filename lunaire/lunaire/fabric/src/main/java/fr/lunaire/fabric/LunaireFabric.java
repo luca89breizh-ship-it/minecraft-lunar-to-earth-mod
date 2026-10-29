@@ -3,17 +3,18 @@ package fr.lunaire.fabric;
 import fr.lunaire.Lunaire;
 import fr.lunaire.content.LunaireContent;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
 public final class LunaireFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        // Blocs d'abord, puis leurs items, puis les objets simples.
         for (LunaireContent.BlockDef def : LunaireContent.BLOCKS) {
             Block block = LunaireContent.createBlock(def);
             Registry.register(BuiltInRegistries.BLOCK, Lunaire.id(def.name()), block);
@@ -27,10 +28,14 @@ public final class LunaireFabric implements ModInitializer {
             Registry.register(BuiltInRegistries.ITEM, Lunaire.id(def.name()), item);
         }
 
-        // Onglets créatifs vanilla.
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS)
-                .register(entries -> LunaireContent.itemsFor(CreativeModeTabs.BUILDING_BLOCKS).forEach(entries::accept));
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS)
-                .register(entries -> LunaireContent.itemsFor(CreativeModeTabs.INGREDIENTS).forEach(entries::accept));
+        CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+                .title(Component.literal("Lunaire"))
+                .icon(() -> new ItemStack(LunaireContent.itemsFor(CreativeModeTabs.BUILDING_BLOCKS).get(0)))
+                .displayItems((params, output) -> {
+                    LunaireContent.itemsFor(CreativeModeTabs.BUILDING_BLOCKS).forEach(i -> output.accept(i));
+                    LunaireContent.itemsFor(CreativeModeTabs.INGREDIENTS).forEach(i -> output.accept(i));
+                })
+                .build();
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Lunaire.id("lunaire"), tab);
     }
 }
