@@ -16,8 +16,6 @@ java {
     withSourcesJar()
 }
 
-// Code et ressources partagés avec la version Fabric.
-// (Forge ne génère pas pack.mcmeta : il est fourni dans forge/src/main/resources.)
 sourceSets {
     main {
         java.srcDir '../common/src/main/java'
@@ -25,8 +23,6 @@ sourceSets {
     }
 }
 
-// ATTENTION : bloc reconstitué d'après ForgeGradle 7. En cas d'erreur, comparez avec
-// le MDK officiel 26.3-66.1.0 (https://files.minecraftforge.net/net/minecraftforge/forge/index_26.3.html).
 repositories {
     mavenCentral()
     minecraft.mavenizer(it)
@@ -35,18 +31,6 @@ repositories {
 }
 
 minecraft {
-    // 26.x n'est pas obfusqué : aucun mapping à déclarer.
-}
-
-minecraft.runs {
-    configureEach {
-        workingDir.set(file('run'))
-        modSource project.sourceSets.main
-    }
-    client { }
-    server {
-        args '--nogui'
-    }
 }
 
 dependencies {
