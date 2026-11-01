@@ -1,16 +1,16 @@
 name: build
- 
+
 on:
   push:
   pull_request:
   workflow_dispatch:
- 
+
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: lunaire/lunaire
+        working-directory: lunaire
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -27,4 +27,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: lunaire-fabric
-          path: lunaire/lunaire/fabric/build/libs/*.jar
+          path: lunaire/fabric/build/libs/*.jar
