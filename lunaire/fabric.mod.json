@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "lunaire",
+  "version": "${version}",
+  "icon": "assets/lunaire/textures/item/air_purifier.png",
+  "name": "Lunaire",
+  "description": "Échoué sur la Lune : survivez, construisez une serre, une fusée, et rentrez à la maison.",
+  "authors": ["Lunaire Team"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["fr.lunaire.fabric.LunaireFabric"],
+    "client": ["fr.lunaire.fabric.client.LunaireClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
