@@ -10,34 +10,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Trouver le projet
+      - name: Dézipper le projet
         run: |
-          echo "Fichiers trouvés :"
-          find . -name gen_all.py -not -path "./.git/*"
-          GEN=$(find . -name gen_all.py -not -path "./.git/*" | head -n 1)
-          if [ -z "$GEN" ]; then
-            echo "ERREUR : tools/gen_all.py est introuvable dans le dépôt."
-            echo "Contenu du dépôt :"
-            find . -not -path "./.git/*" -maxdepth 4 | head -100
-            exit 1
-          fi
-          ROOT=$(dirname "$(dirname "$GEN")")
-          echo "PROJECT=$ROOT" >> "$GITHUB_ENV"
-          echo "Projet dans : $ROOT"
+          ls -la
+          unzip -q projet.zip -d _proj
+          ls _proj/lunaire
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 25
       - uses: gradle/actions/setup-gradle@v4
       - name: Générer textures, données et structures
-        working-directory: ${{ env.PROJECT }}
+        working-directory: _proj/lunaire
         run: python3 tools/gen_all.py
       - name: Compiler le mod Fabric
-        working-directory: ${{ env.PROJECT }}
+        working-directory: _proj/lunaire
         run: |
           chmod +x gradlew
           ./gradlew -p fabric build
       - uses: actions/upload-artifact@v4
         with:
           name: lunaire-fabric
-          path: ${{ env.PROJECT }}/fabric/build/libs/*.jar
+          path: _proj/lunaire/fabric/build/libs/*.jar
